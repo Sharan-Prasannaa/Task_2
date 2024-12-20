@@ -5,11 +5,7 @@
 <body>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <div class="form-container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
+        @include('auth.message')
         <h2 class="form-title">Login Page</h2>
         <form method="POST" action="{{ url('/login') }}">
             @csrf

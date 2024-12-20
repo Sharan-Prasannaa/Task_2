@@ -7,7 +7,8 @@
 <body>
     <nav class="navbar">
         <div class="welcome-text">
-            Welcome, {{$userData->name}}
+            Welcome Admin
+            {{-- Welcome, {{$userData->name}} --}}
         </div>
         <form method="POST" action="">
             @csrf
