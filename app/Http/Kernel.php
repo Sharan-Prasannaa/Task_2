@@ -13,6 +13,13 @@ class Kernel extends HttpKernel
      *
      * @var array<int, class-string|string>
      */
+
+     protected $routeMiddleware = [
+        // Other route middleware...
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'customer' => \App\Http\Middleware\CustomerMiddleware::class,
+    ];
+
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
