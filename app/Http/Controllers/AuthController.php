@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -23,19 +23,29 @@ class AuthController extends Controller
             'password' => 'required|min:6',
             'confirm_password' => 'required_with:password|same:password|min:6'
         ]);
-
-        try {
-            $user = User::create([
+            User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
-
-            Log::info('User Created:', $user->toArray());
-
             return redirect('/login')->with('status', 'Registration is successful!');
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+    }
+    public function checkUser(Request $request){
+        if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
+            if(Auth::User()->role === 'admin'){
+                echo "Admin";die();
+                //return redirect()->intended('/dashboard');
+            }
+            elseif(Auth::User()->role === 'customer'){
+                echo "Customer";die();
+                //return redirect()->intended('/customer');
+            }
+            else{
+                return redirect('/login')->with('status','Email is not registerd');
+            }
+        }
+        else{
+            return redirect()->back()->with('status','Wrong Credentials Entered');
         }
     }
 }

@@ -16,13 +16,19 @@ use App\Models\User;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::middleware('admin')->group(function(){
+    Route::get('/dashboard',[HomeController::class,'dashboard'])->middleware('admin');
+});
+
+Route::middleware(['customer'])->group(function(){
+    Route::get('/customer',[HomeController::class,'customer'])->middleware('customer');
+});
+
 
 Route::get('/',[HomeController::class,'index']);
 
 Route::get('/register',[AuthController::class,'register']);
 Route::post('/create',[AuthController::class,'create']);
-
 Route::get('/login',[AuthController::class,'login']);
-
-
+Route::post('/login',[AuthController::class,'checkUser']);
 
